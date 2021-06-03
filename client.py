@@ -33,9 +33,14 @@ def dwnl(file_name):
 def listFile():
     print("List File")
     try:
-        clear()
         data = server.list_file().data
-        print(data.decode("utf-8"))
+        while True:
+            clear()
+            print("Data Di Server \n")
+            print(data.decode("utf-8"))
+            prompt = input("Ingin Menutup Menu (Y/N) : ")
+            if prompt == "Y" or prompt == "y":
+                break
     except Exception as e:
         print(e)
 
@@ -44,6 +49,7 @@ def menu():
     clear()
     print("\nSelamat Datang FTP client.\n")
     while True:
+        clear()
         print("++++++++++++++ MENU ++++++++++++++++")
         print("\nGunakan Perintah Berikut Ini:")
         print("UPLD file_path : Upload file")
