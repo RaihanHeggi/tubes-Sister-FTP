@@ -23,6 +23,15 @@ def sendFile(fileDownload):
         print(e)
 
 
+def listFile():
+    try:
+        with open("listDirektori.txt", "rb") as handle:
+            return xmlrpc.client.Binary(handle.read())
+            handle.close()
+    except Exception as e:
+        print(e)
+
+
 def main():
     try:
         if len(argv) != 2:
@@ -35,6 +44,11 @@ def main():
     try:
         server = SimpleXMLRPCServer(("127.0.0.1", port_num), allow_none=True)
         print("Listening On Port ", port_num)
+        arr = os.listdir()
+        with open("listDirektori.txt", "w+") as f:
+            for item in arr:
+                f.write("%s\n" % item)
+            f.close
     except Exception as e:
         print(e)
         print("Gagal menggunakan jaringan")
@@ -43,6 +57,7 @@ def main():
     server.register_introspection_functions()
     server.register_function(receive_file, "file_upload")
     server.register_function(sendFile, "file_download")
+    server.register_function(listFile, "list_file")
     server.serve_forever()
 
 

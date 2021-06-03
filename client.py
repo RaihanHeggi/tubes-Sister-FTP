@@ -5,19 +5,7 @@ import sys
 import os
 import struct
 
-
-def conn():
-    # Connect to the server
-    print("Sending server request...")
-    try:
-        clear()
-        server = xmlrpclib.ServerProxy("http://127.0.0.1:8000/")
-        print("Status => Connection sucessful \n")
-    except Exception as e:
-        print("Status => Connection unsucessful. Make sure the server is online. \n")
-        print(e)
-
-
+# Fungsi Untuk Mengirimkan FIle Ke Server
 def upld(file_name):
     print("Uploading {}".format(file_name))
     try:
@@ -29,6 +17,7 @@ def upld(file_name):
         print(e)
 
 
+# Fungsi untuk Mengunduh FIle Dari Server ke Client dan kemudian akan disimpan dengan nama hasilDownload.txt
 def dwnl(file_name):
     print("Downloading {}".format(file_name))
     try:
@@ -36,6 +25,17 @@ def dwnl(file_name):
         with open("hasilDownload.txt", "wb") as handle:
             handle.write(server.file_download(file_name).data)
             handle.close()
+    except Exception as e:
+        print(e)
+
+
+# getting server direktori file
+def listFile():
+    print("List File")
+    try:
+        clear()
+        data = server.list_file().data
+        print(data.decode("utf-8"))
     except Exception as e:
         print(e)
 
@@ -56,7 +56,7 @@ def menu():
         elif prompt[:4].upper() == "UPLD":
             upld(prompt[5:])
         elif prompt[:4].upper() == "LIST":
-            print("List")
+            listFile()
         elif prompt[:4].upper() == "DWLD":
             dwnl(prompt[5:])
         elif prompt[:4].upper() == "QUIT":
@@ -70,9 +70,12 @@ def menu():
 def main():
     global server
     global clear
+    global f
     try:
         clear = lambda: os.system("cls")
+        # Connect to Server
         server = xmlrpclib.ServerProxy("http://127.0.0.1:8000/")
+        # Open Main Menu
         menu()
     except socket.error as e:
         print("Socket Error")
