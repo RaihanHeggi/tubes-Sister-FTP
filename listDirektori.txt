@@ -1,0 +1,6 @@
+client.py
+fileKirim.txt
+fileUpload.txt
+hasilDownload.txt
+listDirektori.txt
+server.py
