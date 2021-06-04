@@ -2,7 +2,11 @@
 Membuat Implementasi FTP menggunakan Python dengan RPC
 
 ## Progress Saat Ini
-    Saat ini Sudah Bisa Upload dan Download dari Client ke Server
+    done - Proses Upload dan Downlaod 
+    done - List File 
+    on-going - Pencatatan Pengiriman
+    on-going - Penamaan File yang di UP atau Download
+    on-going - cara menguji 
 
 ## Menjalankan Kode :
 
