@@ -1,4 +1,4 @@
-# tubes-Sister-FTP
+# Python FTP Application Using RPC 
 Membuat Implementasi FTP menggunakan Python dengan RPC
 
 ## Progress Saat Ini
