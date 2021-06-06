@@ -28,10 +28,10 @@ def dwnl(file_name):
     # membersihkan command prompt
     clear()
     # print untuk  menandai proses download
-    print("Downloading {}".format(file_name))
     try:
         # buka file yang baru hasilDownload untuk menerima file yang dikirim server
-        with open("hasilDownload.txt", "wb") as handle:
+        print("Downloading {}".format(file_name))
+        with open("download_{}".format(file_name), "wb") as handle:
             # tuliskan perbaris apa yang data yang diterima dari server
             handle.write(server.file_download(file_name).data)
             # penulisan di tutup
@@ -46,12 +46,12 @@ def listFile():
     # print untuk menandai menu yang digunakan
     print("List File")
     try:
-        # panggil data yang diterima dari server yang berupa list nama barang di server
-        data = server.list_file().data
         # lakukan looping agar data bisa ditampilkan
         while True:
             # bersihkan command prompt
             clear()
+            # panggil data yang diterima dari server yang berupa list nama barang di server
+            data = server.list_file().data
             # print kalimat untuk mempercantik aplikasi
             print("Data Di Server \n")
             # print data byte yang diterima dengan kita decode dulu ke format yang diketahui
@@ -102,7 +102,7 @@ def menu():
             dwnl(prompt[5:])
         elif prompt[:4].upper() == "QUIT":
             # Tutup Aplikasi
-            print("Quit")
+            clear()
             break
         else:
             # bila tidak ditemukan command print pemberitahuan
@@ -116,6 +116,7 @@ def main():
     global server
     global clear
     global f
+    global counterDownload
     # buat try and except mencegah eksepsi
     try:
         # buat fungsi untuk membersihkan command prompt windows dengan cls

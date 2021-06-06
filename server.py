@@ -8,7 +8,7 @@ def receive_file(filedata, filename):
     # kita buat try dan except untuk mencegah jika terjadi eksepsi
     try:
         # pertama kita buka fileUpload di server yang menerima pengiriman dari client
-        with open("fileUpload.txt", "wb") as handle:
+        with open("upload_{}".format(filename), "wb") as handle:
             # filedata diterima dengan nama variabel json
             json = filedata.data
             # kemudian fileUpload.txt diupdate line data yang digunakan

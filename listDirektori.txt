@@ -1,6 +1,8 @@
+.git
 client.py
+download_upload_fileKirim.txt
 fileKirim.txt
-fileUpload.txt
-hasilDownload.txt
 listDirektori.txt
+README.md
 server.py
+upload_fileKirim.txt
