@@ -10,7 +10,6 @@ ACCOUNT_FILE = "dataClient.txt"
 def receive_file(filedata, filename, clientName):
     # kita buat try dan except untuk mencegah jika terjadi eksepsi
     try:
-        counter_data(clientName)
         # pertama kita buka fileUpload di server yang menerima pengiriman dari client
         with open("upload_{}_{}".format(clientName, filename), "wb") as handle:
             # filedata diterima dengan nama variabel json
@@ -18,6 +17,7 @@ def receive_file(filedata, filename, clientName):
             # kemudian fileUpload.txt diupdate line data yang digunakan
             handle.write(json)
             # kita return True untuk mengakhiri proses
+            counter_data(clientName)
             return True
     except Exception as e:
         # print eksepsi yang terjadi untuk mengetahui kesalahan yang terjadi
@@ -28,10 +28,10 @@ def receive_file(filedata, filename, clientName):
 def sendFile(fileDownload, clientName):
     # kita buat try dan except untuk mencegah jika terjadi eksepsi
     try:
-        counter_data(clientName)
         # kita baca file yang ingin kita download yang berada di server
         with open(fileDownload, "rb") as handle:
             # kita akan mengirimkan setiap apa yang dibaca pada file tersebut
+            counter_data(clientName)
             return xmlrpc.client.Binary(handle.read())
             # kemudian pembacaan kita tutup
             handle.close()
