@@ -8,10 +8,13 @@ Membuat Implementasi FTP menggunakan Python dengan RPC
     done - menu utama 
     done - bisa koneksi sementara di localhost
     done - Penamaan File yang di UP atau Download (Sisa Nambah Client Blla Diperlukan)
-    on-going - Pencatatan Pengiriman
+    done - Pencatatan Client
     on-going - cara menguji 
 
 ## Menjalankan Kode :
 
     * Untuk menjalankan Server python server.py port_number
     * Untuk menjalankan Client python client.py
+
+## NOTE :
+    Lebih Baik Dijalankan Menggunakan Command Prompt karena di VSC Terminal akan merujuk bukan pada tempat spesifik sehingga sering tidak terjadi kesalahan
