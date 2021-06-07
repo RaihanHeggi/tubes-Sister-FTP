@@ -7,8 +7,8 @@ Membuat Implementasi FTP menggunakan Python dengan RPC
     done - comment
     done - menu utama 
     done - bisa koneksi sementara di localhost
+    done - Penamaan File yang di UP atau Download (Sisa Nambah Client Blla Diperlukan)
     on-going - Pencatatan Pengiriman
-    on-going - Penamaan File yang di UP atau Download
     on-going - cara menguji 
 
 ## Menjalankan Kode :
