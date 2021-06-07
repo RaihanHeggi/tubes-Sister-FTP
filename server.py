@@ -3,12 +3,16 @@ import xmlrpc.client
 from sys import argv
 import os
 
+ACCOUNT_FILE = "dataClient.txt"
+
+
 # Fungsi yang digunakan untuk menerima file yang dikirimkan atau bila dilihat dari client melakukan proses upload
-def receive_file(filedata, filename):
+def receive_file(filedata, filename, clientName):
     # kita buat try dan except untuk mencegah jika terjadi eksepsi
     try:
+        counter_data(clientName)
         # pertama kita buka fileUpload di server yang menerima pengiriman dari client
-        with open("upload_{}".format(filename), "wb") as handle:
+        with open("upload_{}_{}".format(clientName, filename), "wb") as handle:
             # filedata diterima dengan nama variabel json
             json = filedata.data
             # kemudian fileUpload.txt diupdate line data yang digunakan
@@ -21,9 +25,10 @@ def receive_file(filedata, filename):
 
 
 # Fungsi yang digunakan untuk mengirimkan file dari server atau bila dilihat dari client melakukan proses download
-def sendFile(fileDownload):
+def sendFile(fileDownload, clientName):
     # kita buat try dan except untuk mencegah jika terjadi eksepsi
     try:
+        counter_data(clientName)
         # kita baca file yang ingin kita download yang berada di server
         with open(fileDownload, "rb") as handle:
             # kita akan mengirimkan setiap apa yang dibaca pada file tersebut
@@ -58,6 +63,74 @@ def listFile():
     except Exception as e:
         # print eksepsi yang terjadi untuk mengetahui kesalahan yang terjadi
         print(e)
+
+
+# Print Data Keaktifan User
+def most_active_client():
+    try:
+        accnts = get_accounts_data()
+    except Exception as e:
+        print(e)
+    return accnts
+
+
+# get data akun untuk pertama kali saat login
+def get_accounts_name(akun_name):
+    accnts = ""
+    try:
+        fileData = open(ACCOUNT_FILE, "r")
+        for line in fileData:
+            value = line.rstrip().partition(",")
+            if value[0] == akun_name:
+                accnts = value[0]
+        fileData.close()
+    except IOError:
+        print("Gagal membuka {}".format(ACCOUNT_FILE))
+    return accnts
+
+
+# +++++++++++++++++++++++++++++++++++++++++COUNTER UPLOAD DAN DOWNLOAD++++++++++++++++++++++++++++++++++++++++++++++
+
+# melakukan counter_data untuk setiap upload dan download client
+def counter_data(account):
+    return change_value(account)
+
+
+# merubah value counter
+def change_value(account):
+    akun = get_accounts_data()
+    try:
+        akun[account] += 1
+        write_to_database(akun)
+        return True
+    except (KeyError):
+        return False
+
+
+# mengambil keseluruhan data untuk diupdate
+def get_accounts_data():
+    accnts = {}
+    try:
+        fileData = open(ACCOUNT_FILE, "r")
+        for line in fileData:
+            value = line.rstrip().partition(",")
+            accnts[value[0]] = int(value[2])
+        fileData.close()
+    except IOError:
+        print("Gagal membuka {}".format(ACCOUNT_FILE))
+    return accnts
+
+
+# update data di file penyimpanan akun
+def write_to_database(akun):
+    try:
+        f = open(ACCOUNT_FILE, "w")
+        for key, val in akun.items():
+            f.write("{},{}\n".format(key, val))
+        f.close()
+    except IOError:
+        print("Gagal menambahkan counter {} ".format(ACCOUNT_FILE))
+    return True
 
 
 def main():
@@ -97,6 +170,10 @@ def main():
     server.register_function(sendFile, "file_download")
     # receive file akan dikenali client sebagai fungsi list file
     server.register_function(listFile, "list_file")
+    # fungsi untuk melakukan login
+    server.register_function(get_accounts_name, "login_client")
+    # fungsi untuk melakukan cek keaktifan
+    server.register_function(most_active_client, "client_active")
     # server dinyalakan selamanya hingga ada interupsi untuk mematikan
     server.serve_forever()
 

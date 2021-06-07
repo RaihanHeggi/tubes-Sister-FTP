@@ -1,8 +1,8 @@
 .git
 client.py
-download_upload_fileKirim.txt
+dataClient.txt
 fileKirim.txt
 listDirektori.txt
 README.md
 server.py
-upload_fileKirim.txt
+test.py
