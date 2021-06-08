@@ -16,8 +16,9 @@ def receive_file(filedata, filename, clientName):
             json = filedata.data
             # kemudian fileUpload.txt diupdate line data yang digunakan
             handle.write(json)
-            # kita return True untuk mengakhiri proses
+            # increment data di database
             counter_data(clientName)
+            # kita return True untuk mengakhiri proses
             return True
     except Exception as e:
         # print eksepsi yang terjadi untuk mengetahui kesalahan yang terjadi
@@ -30,8 +31,9 @@ def sendFile(fileDownload, clientName):
     try:
         # kita baca file yang ingin kita download yang berada di server
         with open(fileDownload, "rb") as handle:
-            # kita akan mengirimkan setiap apa yang dibaca pada file tersebut
+            # increment data didatabase bila file ada
             counter_data(clientName)
+            # kita akan mengirimkan setiap apa yang dibaca pada file tersebut
             return xmlrpc.client.Binary(handle.read())
             # kemudian pembacaan kita tutup
             handle.close()
@@ -65,27 +67,41 @@ def listFile():
         print(e)
 
 
-# Print Data Keaktifan User
+# Print Data Keaktifan User Dengan mengembalikan data Client yang disimpan
 def most_active_client():
     try:
+        # panggil fungsi untuk mendapatkan dictionary data client
         accnts = get_accounts_data()
+    # jika terjadi eksepsi
     except Exception as e:
+        # print kesalahannya dimana
         print(e)
+    # mengembalikan dictionary client
     return accnts
 
 
 # get data akun untuk pertama kali saat login
 def get_accounts_name(akun_name):
+    # siapkan string kosong untuk menampung id client yang nantinya akan dipastikan ada atau tidak
     accnts = ""
     try:
+        # buka database account di dataClient.txt / variable constant ACCOUNT_FILE
         fileData = open(ACCOUNT_FILE, "r")
+        # data kita looping
         for line in fileData:
+            # ambil valuenya dan kita pisahnya client5,0 => client5 , ",," , 0
             value = line.rstrip().partition(",")
+            # kondisi jika value ada
             if value[0] == akun_name:
+                # setting value id client untuk dikembalikan
                 accnts = value[0]
+        # tutup bila sudah selesai
         fileData.close()
+    # eksepsi bila ada input/output error
     except IOError:
+        # print notifikasi
         print("Gagal membuka {}".format(ACCOUNT_FILE))
+    # kembalikan account
     return accnts
 
 
@@ -93,43 +109,66 @@ def get_accounts_name(akun_name):
 
 # melakukan counter_data untuk setiap upload dan download client
 def counter_data(account):
+    # memanggil change value
     return change_value(account)
 
 
 # merubah value counter
 def change_value(account):
+    # dapatkan dictionary keseluruhan data
     akun = get_accounts_data()
     try:
+        # increment nilai counter yang dikandung
         akun[account] += 1
+        # kemudian tuliskan kembali kedalam database
         write_to_database(akun)
+        # return True bila sudah tidak dibutuhkan
         return True
+    # bila ada eksepsi key yang error
     except (KeyError):
+        # tidak lakukan apapun tapi kembalikan false
         return False
 
 
 # mengambil keseluruhan data untuk diupdate
 def get_accounts_data():
+    # siapkan dictionary untuk menampung data
     accnts = {}
     try:
+        # buka database dari sistem
         fileData = open(ACCOUNT_FILE, "r")
+        # looping data yang ada di database
         for line in fileData:
+            # ambil value dari database dan dibuat menjadi client5, ",,", 0
             value = line.rstrip().partition(",")
+            # buat menjadi dictionary {client5: value[2]}
             accnts[value[0]] = int(value[2])
+        # tutup pembacaan
         fileData.close()
+    # bila terjadi error input output
     except IOError:
+        # Print notifikasi gagal
         print("Gagal membuka {}".format(ACCOUNT_FILE))
+    # kembalikan dictionary akun untuk digunakan pada proses yang membutuhkan
     return accnts
 
 
 # update data di file penyimpanan akun
 def write_to_database(akun):
     try:
+        # buka database
         f = open(ACCOUNT_FILE, "w")
+        # looping data pada dictionary key => keyvaluedict, val => valuedict {client5 (key) : 0 (value)}
         for key, val in akun.items():
+            # write data kedalam database dengan format key,value atu client5,value
             f.write("{},{}\n".format(key, val))
+        # tutup pembacaan
         f.close()
+    # bila terjadi kesalahan input output
     except IOError:
+        # print notifikasi gagal
         print("Gagal menambahkan counter {} ".format(ACCOUNT_FILE))
+    # mengembalikan true karena fungsi dari def hanya menuliskan dan tidak mendapatkan apapun
     return True
 
 

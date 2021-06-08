@@ -70,11 +70,15 @@ def listFile():
 # getting most active client
 def cln():
     try:
+        # looping menu
         while True:
             clear()
             print("List Client")
+            # get data dari server mengenai client
             data = server.client_active()
+            # sort max value dari dictionary dan mengembalikan key
             maxValue = max(data, key=data.get)
+            # hasil data client dan nama client teraktif
             print("Akun yang terdaftar : {}".format(data))
             print("Akun yang teraktif : {}".format(maxValue))
             # input untuk menu
@@ -82,7 +86,9 @@ def cln():
             # jika Y maka kembali ke menu utama
             if prompt == "Y" or prompt == "y":
                 break
+    # jika ada eksepsi
     except Exception as e:
+        # print kesalahan
         print(e)
 
 
@@ -148,11 +154,15 @@ def main():
         clear = lambda: os.system("cls")
         # Connect to Server
         server = xmlrpclib.ServerProxy("http://127.0.0.1:8000/")
-        # Open Main Menu
+        # lakukan login untuk memastikan data client ada dan dapat digunakan
         clientName = server.login_client(input("Silahkan Masukan ID anda : "))
+        # buat kondisi bila data ada
         if clientName != "":
+            # Open Main Menu
             menu(clientName)
+        # jika data tidak ada
         else:
+            # naikkan jadi Exception untuk menghentikan program
             raise Exception
     # jika socket connection error
     except socket.error as e:
