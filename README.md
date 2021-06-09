@@ -9,7 +9,8 @@ Membuat Implementasi FTP menggunakan Python dengan RPC
     done - bisa koneksi sementara di localhost
     done - Penamaan File yang di UP atau Download (Sisa Nambah Client Blla Diperlukan)
     done - Pencatatan Client
-    on-going - cara menguji 
+    done - pengujian bisa menggunakan radmin vpn dan menganti alamat tujuannya saja 
+    
 
 ## Menjalankan Kode :
 
