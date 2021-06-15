@@ -189,7 +189,9 @@ def main():
     # buat try dan except ketika melakukan koneksi ke jaringan
     try:
         # server menggunakan jaringan localhost yang dapat diganti dengan port sesuai keperluan dari user
-        server = SimpleXMLRPCServer(("127.0.0.1", port_num), allow_none=True)
+        server = SimpleXMLRPCServer(
+            ("127.0.0.1", port_num), allow_none=True
+        )  # IP dan Port bisa dirubah sesuai dengan kebutuhan pengguna
         # print koneksi dibangun pada port berapa
         print("Listening On Port ", port_num)
     # jika terjadi eksepsi

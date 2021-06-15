@@ -153,7 +153,9 @@ def main():
         # buat fungsi untuk membersihkan command prompt windows dengan cls
         clear = lambda: os.system("cls")
         # Connect to Server
-        server = xmlrpclib.ServerProxy("http://127.0.0.1:8000/")
+        server = xmlrpclib.ServerProxy(
+            "http://127.0.0.1:8000/"
+        )  # Silahkan dirubah untuk menyesuaikan IP dan Port Server
         # lakukan login untuk memastikan data client ada dan dapat digunakan
         clientName = server.login_client(input("Silahkan Masukan ID anda : "))
         # buat kondisi bila data ada

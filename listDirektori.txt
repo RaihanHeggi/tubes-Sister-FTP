@@ -1,8 +1,12 @@
 .git
 client.py
 dataClient.txt
+download_upload_client5_fileKirim.txt
 fileKirim.txt
 listDirektori.txt
 README.md
 server.py
 test.py
+TubesSisparter-IF4203-FTP.pdf
+upload_client2_fileKirim.txt
+upload_client5_fileKirim.txt
